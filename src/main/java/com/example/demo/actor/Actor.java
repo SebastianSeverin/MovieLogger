@@ -1,7 +1,6 @@
 package com.example.demo.actor;
 
 import com.example.demo.movie.Movie;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

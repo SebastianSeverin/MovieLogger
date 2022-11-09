@@ -1,6 +1,5 @@
 package com.example.demo.genre;
 
-import com.example.demo.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
