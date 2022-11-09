@@ -1,12 +1,9 @@
 package com.example.demo.movie;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 
 @RestController
@@ -20,7 +17,27 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getMovies() {
+    public List<MovieDTO> getMovies() {
         return movieService.getMovies();
+    }
+
+    @PostMapping
+    public void registerNewMovie(@RequestBody Movie movie) {
+        movieService.addNewMovie(movie);
+    }
+
+    @DeleteMapping(path = "{movieId}")
+    public void deleteMovie(@PathVariable("movieId") Long movieId) {
+        movieService.deleteMovie(movieId);
+    }
+
+    @PutMapping(path = "{movieId}")
+    public void updateMovie(
+            @PathVariable("movieId") Long movieId,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer length,
+            @RequestParam(required = false) Double rating,
+            @RequestParam(required = false) LocalDate releaseYear) {
+        movieService.updateMovie(movieId, name, length, rating, releaseYear);
     }
 }

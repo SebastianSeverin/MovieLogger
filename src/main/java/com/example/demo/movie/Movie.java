@@ -1,19 +1,53 @@
 package com.example.demo.movie;
 
-import java.time.LocalDate;
+import com.example.demo.actor.Actor;
+import com.example.demo.genre.Genre;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Set;
+
+@Getter
+@Setter
+@Entity
+@Table
 public class Movie {
+    @Id
+    @SequenceGenerator(
+            name = "movie_sequence",
+            sequenceName = "movie_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "movie_sequence"
+    )
     private Long id;
     private String name;
-    private String genre;
+    @ManyToOne
+    @JoinColumn(
+        name = "genre",
+        nullable = true
+    )
+    private Genre genre;
     private Integer length;
     private Double rating;
     private LocalDate releaseYear;
 
+    @ManyToMany
+    @JoinTable(
+            name = "movieCast",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "actorId")
+    )
+    private Set<Actor> cast;
+
     public Movie() {
     }
 
-    public Movie(Long id, String name, String genre, Integer length, Double rating, LocalDate releaseYear) {
+    public Movie(Long id, String name, Genre genre, Integer length, Double rating, LocalDate releaseYear) {
         this.id = id;
         this.name = name;
         this.genre = genre;
@@ -22,59 +56,11 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public Movie(String name, String genre, Integer length, Double rating, LocalDate releaseYear) {
+    public Movie(String name, Genre genre, Integer length, Double rating, LocalDate releaseYear) {
         this.name = name;
         this.genre = genre;
         this.length = length;
         this.rating = rating;
-        this.releaseYear = releaseYear;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public LocalDate getReleaseYear() {
-        return releaseYear;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public void setReleaseYear(LocalDate releaseYear) {
         this.releaseYear = releaseYear;
     }
 
